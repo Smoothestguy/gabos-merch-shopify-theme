@@ -1,0 +1,22 @@
+<div>
+  <h2>{{ section.settings.title }}</h2>
+  <p>{{ section.settings.description }}</p>
+</div>
+
+{% schema %}
+{
+  "name": "Your Section Name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    }
+  ]
+}
+{% endschema %}

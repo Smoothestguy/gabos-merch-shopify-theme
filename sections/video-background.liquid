@@ -1,0 +1,147 @@
+{% if section.settings.show_video_bg %}
+  <div class="video-background">
+    <video autoplay loop muted playsinline class="video-background__video">
+      <source src="{{ section.settings.background_video_url }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <!-- Add a div that will act as the blur overlay -->
+    <div class="video-background__overlay"></div>
+  </div>
+{% endif %}
+
+
+
+<style>
+  
+ /* Video Background */
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  z-index: 0; /* Ensures the video stays behind other content */
+}
+
+.video-background__video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  background-size: cover;
+  object-fit: cover; /* Keeps the aspect ratio */
+}
+
+/* Blur Overlay */
+.video-background__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  /* background: rgba(255, 255, 255, 0.2); /* Optional: semi-transparent overlay */ 
+  backdrop-filter: blur({{ section.settings.video_bg_blur }}px) brightness({{ section.settings.video_bg_bright }}0%) hue-rotate({{ section.settings.video_bg_hue }}deg) grayscale({{ section.settings.video_bg_gray }}%) sepia({{ section.settings.video_bg_sepia }}%) invert({{ section.settings.video_bg_invert }}%) !important; 
+  z-index: 1; /* Ensure it sits above the video but below any content */
+}
+
+/* Ensure all other content sits above the video and blur overlay */
+body, .content {
+  position: relative;
+  z-index: 2;
+}
+
+  
+</style>
+
+{% schema %}
+  {
+    "name": "Video Background",
+    "settings": [
+       {
+      "type": "checkbox",
+      "id": "show_video_bg",
+      "info": "Background will be replaced with Video, Uncheck when not in use to increase loading speeds. ",
+      "label": "Show Video Background",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "background_video_url",
+      "label": "Background Video Url",
+      "info": "Upload your video/MP4 file inside of content > files, then copy & paste the link here. [Click Here To Go To Files Tab](/admin/settings/files)"
+    },
+     {
+      "type": "range",
+      "id": "video_bg_blur",
+      "label": "Video Background Blur",
+      "info": "Apply a blur to your video background.",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "step": 2,
+      "unit": "px"
+    },
+      {
+      "type": "range",
+      "id": "video_bg_bright",
+      "label": "Video Background Brightness",
+      "info": "Increase / Decrease the brightness of your video background to your liking. (Set to 10% for normal brightness)",
+      "default": 10,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+       {
+      "type": "range",
+      "id": "video_bg_hue",
+      "label": "Video Background Hue",
+      "info": "Rotate the hue of your video backgrounds colors.",
+      "default": 2,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "deg"
+    },
+      {
+      "type": "range",
+      "id": "video_bg_gray",
+      "label": "Video Background Grayscale",
+      "info": "Convert your video background to grayscale.",
+      "default": 2,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+      {
+      "type": "range",
+      "id": "video_bg_sepia",
+      "label": "Video Background Sepia",
+      "info": "Apply a sepia tone (a warm brown filter) to your video background.",
+      "default": 2,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+      {
+      "type": "range",
+      "id": "video_bg_invert",
+      "label": "Video Background Invert",
+      "info": "Invert the colors of your video background.",
+      "default": 2,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    }
+    ]
+  }
+{% endschema %}

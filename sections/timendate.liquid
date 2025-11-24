@@ -1,0 +1,461 @@
+{% if section.settings.show_date_time %}
+<div class="date-time-container">
+  <div class="date" style="color: {{ section.settings.index_date_color }}" id="dateDisplay"></div>
+  <div class="time" style="color: {{ section.settings.index_time_color }}" id="timeDisplay"></div>
+</div>
+{% endif %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    function updateTime() {
+      const timeContainer = document.querySelector(".time");
+      const dateContainer = document.querySelector(".date");
+      const selectedTimeZone = "{{ section.settings.timezone }}"; // Get selected timezone from settings
+      const date = new Date();
+      
+      // Use Intl.DateTimeFormat to get time and timezone abbreviation
+      const options = {
+        timeZone: selectedTimeZone,
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true, // Display time in 12-hour format
+        timeZoneName: 'short' // Show timezone abbreviation (e.g., CDT, PST)
+      };
+
+      const dateFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: selectedTimeZone,
+        month: '2-digit',
+        day: '2-digit',
+        year: '2-digit'
+      });
+
+      const timeFormatter = new Intl.DateTimeFormat('en-US', options);
+
+      // Format date and time
+      const formattedDate = dateFormatter.format(date);
+      const formattedTime = timeFormatter.format(date);
+
+      // Update HTML
+      dateContainer.textContent = formattedDate;
+      timeContainer.textContent = formattedTime;
+    }
+
+    updateTime(); // Call initially
+    setInterval(updateTime, 1000); // Update every second to reflect live time
+  });
+</script>
+
+
+<style>
+  .date-time-container {
+    padding-bottom: 10px;
+  padding-left: 30px;
+    position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px; /* Space between date and time */
+  text-align: left; /* Left align for desktop */
+}
+
+.date, .time {
+  font-size: 12px; /* Adjust the size to fit your design */
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 768px) {
+  .date-time-container {
+    justify-content: center;
+    text-align: center; /* Center align for mobile */
+  }
+}
+
+  
+</style>
+
+
+{% schema %}
+{
+  "name": "Clock",
+  "tag": "div",
+  "settings": [
+         {
+    "type": "checkbox",
+    "id": "show_date_time",
+    "label": "Show Date/Time",
+    "default": true
+    },
+   {
+      "type": "color",
+      "id": "index_date_color",
+      "label": "Date Color",
+      "default": "#000"
+    },
+     {
+      "type": "color",
+      "id": "index_time_color",
+      "label": "Time Color",
+      "default": "#000"
+    },
+     {
+  "type": "select",
+  "id": "timezone",
+  "label": "Pick A Timezone",
+   "info": "After selecting time zone, please hit save to view your changes.",
+  "options": [
+    {
+      "value": "America/New_York",
+      "label": "America/New_York"
+    },
+    {
+      "value": "America/Los_Angeles",
+      "label": "America/Los_Angeles"
+    },
+    {
+      "value": "America/Phoenix",
+      "label": "America/Phoenix"
+    },
+    {
+      "value": "America/Boise",
+      "label": "America/Boise"
+    },
+    {
+      "value": "America/Denver",
+      "label": "America/Denver"
+    },
+    {
+      "value": "America/Detroit",
+      "label": "America/Detroit"
+    },
+    {
+      "value": "America/Chicago",
+      "label": "America/Chicago"
+    },
+    {
+      "value": "Pacific/Midway",
+      "label": "Pacific/Midway"
+    },
+    {
+      "value": "America/Adak",
+      "label": "America/Adak"
+    },
+    {
+      "value": "America/Anchorage",
+      "label": "America/Anchorage"
+    },
+    {
+      "value": "Pacific/Gambier",
+      "label": "Pacific/Gambier"
+    },
+    {
+      "value": "America/Dawson_Creek",
+      "label": "America/Dawson_Creek"
+    },
+    {
+      "value": "America/Ensenada",
+      "label": "America/Ensenada"
+    },
+    {
+      "value": "America/Chihuahua",
+      "label": "America/Chihuahua"
+    },
+    {
+      "value": "America/Belize",
+      "label": "America/Belize"
+    },
+    {
+      "value": "America/Cancun",
+      "label": "America/Cancun"
+    },
+    {
+      "value": "Chile/EasterIsland",
+      "label": "Chile/EasterIsland"
+    },
+    {
+      "value": "America/Bogota",
+      "label": "America/Bogota"
+    },
+    {
+      "value": "America/Caracas",
+      "label": "America/Caracas"
+    },
+    {
+      "value": "America/Campo_Grande",
+      "label": "America/Campo_Grande"
+    },
+    {
+      "value": "America/Glace_Bay",
+      "label": "America/Glace_Bay"
+    },
+    {
+      "value": "America/Goose_Bay",
+      "label": "America/Goose_Bay"
+    },
+    {
+      "value": "America/Santiago",
+      "label": "America/Santiago"
+    },
+    {
+      "value": "America/La_Paz",
+      "label": "America/La_Paz"
+    },
+    {
+      "value": "America/Argentina/Buenos_Aires",
+      "label": "America/Argentina/Buenos_Aires"
+    },
+    {
+      "value": "America/Montevideo",
+      "label": "America/Montevideo"
+    },
+    {
+      "value": "America/Araguaina",
+      "label": "America/Araguaina"
+    },
+    {
+      "value": "America/Godthab",
+      "label": "America/Godthab"
+    },
+    {
+      "value": "America/Miquelon",
+      "label": "America/Miquelon"
+    },
+    {
+      "value": "America/Sao_Paulo",
+      "label": "America/Sao_Paulo"
+    },
+    {
+      "value": "America/St_Johns",
+      "label": "America/St_Johns"
+    },
+    {
+      "value": "Atlantic/Cape_Verde",
+      "label": "Atlantic/Cape_Verde"
+    },
+    {
+      "value": "Europe/Belfast",
+      "label": "Europe/Belfast"
+    },
+    {
+      "value": "Africa/Abidjan",
+      "label": "Africa/Abidjan"
+    },
+    {
+      "value": "Europe/Dublin",
+      "label": "Europe/Dublin"
+    },
+    {
+      "value": "Europe/Lisbon",
+      "label": "Europe/Lisbon"
+    },
+    {
+      "value": "Europe/London",
+      "label": "Europe/London"
+    },
+    {
+      "value": "Europe/Warsaw",
+      "label": "Europe/Warsaw"
+    },
+    {
+      "value": "Africa/Windhoek",
+      "label": "Africa/Windhoek"
+    },
+    {
+      "value": "Atlantic/Azores",
+      "label": "Atlantic/Azores"
+    },
+    {
+      "value": "Atlantic/Stanley",
+      "label": "Atlantic/Stanley"
+    },
+    {
+      "value": "Europe/Amsterdam",
+      "label": "Europe/Amsterdam"
+    },
+    {
+      "value": "Europe/Belgrade",
+      "label": "Europe/Belgrade"
+    },
+    {
+      "value": "Europe/Brussels",
+      "label": "Europe/Brussels"
+    },
+    {
+      "value": "Africa/Cairo",
+      "label": "Africa/Cairo"
+    },
+    {
+      "value": "Africa/Blantyre",
+      "label": "Africa/Blantyre"
+    },
+    {
+      "value": "Asia/Beirut",
+      "label": "Asia/Beirut"
+    },
+    {
+      "value": "Asia/Damascus",
+      "label": "Asia/Damascus"
+    },
+    {
+      "value": "Asia/Gaza",
+      "label": "Asia/Gaza"
+    },
+    {
+      "value": "Asia/Jerusalem",
+      "label": "Asia/Jerusalem"
+    },
+    {
+      "value": "Africa/Addis_Ababa",
+      "label": "Africa/Addis_Ababa"
+    },
+    {
+      "value": "Europe/Minsk",
+      "label": "Europe/Minsk"
+    },
+    {
+      "value": "Asia/Tehran",
+      "label": "Asia/Tehran"
+    },
+    {
+      "value": "Asia/Dubai",
+      "label": "Asia/Dubai"
+    },
+    {
+      "value": "Asia/Yerevan",
+      "label": "Asia/Yerevan"
+    },
+    {
+      "value": "Europe/Moscow",
+      "label": "Europe/Moscow"
+    },
+    {
+      "value": "Asia/Kabul",
+      "label": "Asia/Kabul"
+    },
+    {
+      "value": "Asia/Tashkent",
+      "label": "Asia/Tashkent"
+    },
+    {
+      "value": "Asia/Kolkata",
+      "label": "Asia/Kolkata"
+    },
+    {
+      "value": "Asia/Katmandu",
+      "label": "Asia/Katmandu"
+    },
+    {
+      "value": "Asia/Dhaka",
+      "label": "Asia/Dhaka"
+    },
+    {
+      "value": "Asia/Yekaterinburg",
+      "label": "Asia/Yekaterinburg"
+    },
+    {
+      "value": "Asia/Rangoon",
+      "label": "Asia/Rangoon"
+    },
+    {
+      "value": "Asia/Bangkok",
+      "label": "Asia/Bangkok"
+    },
+    {
+      "value": "Asia/Novosibirsk",
+      "label": "Asia/Novosibirsk"
+    },
+    {
+      "value": "Asia/Hong_Kong",
+      "label": "Asia/Hong_Kong"
+    },
+    {
+      "value": "Asia/Krasnoyarsk",
+      "label": "Asia/Krasnoyarsk"
+    },
+    {
+      "value": "Australia/Perth",
+      "label": "Australia/Perth"
+    },
+    {
+      "value": "Australia/Eucla",
+      "label": "Australia/Eucla"
+    },
+    {
+      "value": "Asia/Irkutsk",
+      "label": "Asia/Irkutsk"
+    },
+    {
+      "value": "Asia/Seoul",
+      "label": "Asia/Seoul"
+    },
+    {
+      "value": "Asia/Tokyo",
+      "label": "Asia/Tokyo"
+    },
+    {
+      "value": "Australia/Adelaide",
+      "label": "Australia/Adelaide"
+    },
+    {
+      "value": "Australia/Darwin",
+      "label": "Australia/Darwin"
+    },
+    {
+      "value": "Pacific/Marquesas",
+      "label": "Pacific/Marquesas"
+    },
+    {
+      "value": "Australia/Brisbane",
+      "label": "Australia/Brisbane"
+    },
+    {
+      "value": "Australia/Hobart",
+      "label": "Australia/Hobart"
+    },
+    {
+      "value": "Asia/Yakutsk",
+      "label": "Asia/Yakutsk"
+    },
+    {
+      "value": "Australia/Lord_Howe",
+      "label": "Australia/Lord_Howe"
+    },
+    {
+      "value": "Asia/Vladivostok",
+      "label": "Asia/Vladivostok"
+    },
+    {
+      "value": "Pacific/Norfolk",
+      "label": "Pacific/Norfolk"
+    },
+    {
+      "value": "Asia/Anadyr",
+      "label": "Asia/Anadyr"
+    },
+    {
+      "value": "Asia/Magadan",
+      "label": "Asia/Magadan"
+    },
+    {
+      "value": "Pacific/Auckland",
+      "label": "Pacific/Auckland"
+    },
+    {
+      "value": "Pacific/Chatham",
+      "label": "Pacific/Chatham"
+    },
+    {
+      "value": "Pacific/Tongatapu",
+      "label": "Pacific/Tongatapu"
+    },
+    {
+      "value": "Pacific/Kiritimati",
+      "label": "Pacific/Kiritimati"
+    }
+  ],
+  "default": "America/New_York"
+}
+
+    ]
+  }
+
+{% endschema %}

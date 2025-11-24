@@ -1,0 +1,225 @@
+{
+  "current": {
+    "color_body_bg": "#000000",
+    "color_body_text": "#ffffff",
+    "color_primary_color": "#888888",
+    "color_primary_button_text": "#ffffff",
+    "color_sale_badge": "#000000",
+    "color_borders": "rgba(0,0,0,0)",
+    "color_form": "rgba(0,0,0,0)",
+    "enable_custom_font": false,
+    "custom_font_name_heading": "",
+    "custom_font_url_heading": "",
+    "custom_font_name_regular": "",
+    "custom_font_url_regular": "",
+    "type_header_font": "roboto_mono_n4",
+    "type_header_base_size": "22px",
+    "type_base_font": "anonymous_pro_n4",
+    "cart_enable_ajax": false,
+    "social_facebook_link": "",
+    "social_twitter_link": "",
+    "social_instagram_link": "",
+    "social_snapchat_link": "",
+    "social_tumblr_link": "",
+    "social_youtube_link": "",
+    "social_tiktok_link": "",
+    "social_vimeo_link": "",
+    "social_fancy_link": "",
+    "social_apple_link": "",
+    "social_spotify_link": "",
+    "social_soundcloud_link": "",
+    "social_tidal_link": "",
+    "social_azmusic_link": "",
+    "social_ytmusic_link": "",
+    "main_blog": "",
+    "card_text_position": "center",
+    "hide_card_price": false,
+    "on_card_glow": true,
+    "card_glow_color": "#7f7f7f",
+    "card_glow_size": 8,
+    "card_glow_yaxis": 14,
+    "enable_custom_cursor": false,
+    "sections": {
+      "enter-page": {
+        "type": "enter-page",
+        "settings": {
+          "show_enter_page": true,
+          "show_ann_enter": true,
+          "ann_color_bg": "#ffffff",
+          "ann_color_text": "#000000",
+          "logo_width_ds": "120",
+          "show_date_time_enter": true,
+          "entertimedate_color": "black",
+          "selected_menu": "main-menu",
+          "nav_link_size": 18,
+          "navmenu_color": "black",
+          "nav_con_corners": "30px",
+          "nav_content_bg": "#000000",
+          "show_nav_bg_opacity": true,
+          "nav_bg_color_opacity": 0,
+          "nav_bg_blur": 12,
+          "background_type": "solid",
+          "solid_background_color": "#ffffff",
+          "background_video_url": "",
+          "bg_blur": 1,
+          "bg_brightness": 90,
+          "bg_hue": 0,
+          "bg_grayscale": 0,
+          "bg_sepia": 0,
+          "bg_invert": 0,
+          "show_social_enter": true,
+          "social_color": "black"
+        }
+      },
+      "website-background": {
+        "type": "website-background",
+        "settings": {
+          "show_video_bg": false,
+          "background_video_url": "",
+          "show_image_bg": false,
+          "bg_blur": 4,
+          "bg_brightness": 90,
+          "bg_hue": 0,
+          "bg_grayscale": 100,
+          "bg_sepia": 0,
+          "bg_invert": 0
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_max_width": "125",
+          "show_announcement": true,
+          "home_page_only": false,
+          "type_announcement": "marquee",
+          "anno_home_rate": 18,
+          "announcement_text": "",
+          "announcement_link": "",
+          "bar_text_color": "#000000",
+          "bar_bg_color": "#ffffff",
+          "announcement_float": true,
+          "desktop_float_width": 90,
+          "mobile_float_width": 90,
+          "float_shadow_color": "#000000",
+          "float_round_corners": false,
+          "tagline": ""
+        }
+      },
+      "timendate": {
+        "type": "timendate",
+        "settings": {
+          "show_date_time": true,
+          "index_date_color": "#ffffff",
+          "index_time_color": "#ffffff",
+          "timezone": "America/Chicago"
+        }
+      },
+      "sidebar": {
+        "type": "sidebar",
+        "settings": { "main_menu_link_list": "main-menu" }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "menu_MPbbpm": {
+            "type": "menu",
+            "settings": { "title": "Links", "menu": "" }
+          },
+          "newsletter_hFNqNB": {
+            "type": "newsletter",
+            "settings": {
+              "news_heading": "<p>Be in the know.</p>",
+              "subtext": "<p>Sign up today and get 10% off your first order!</p>"
+            }
+          }
+        },
+        "block_order": ["menu_MPbbpm", "newsletter_hFNqNB"],
+        "settings": { "show_payment_icons": true }
+      },
+      "audio-player": {
+        "type": "audio-player",
+        "settings": {
+          "enable_audio_player": true,
+          "audio_file_url": "https://cdn.shopify.com/s/files/1/0699/2579/8185/files/Cost_for_the_Drip.mp3?v=1732590727",
+          "audio_player_opacity": 100,
+          "audio_player_color": "#ffffff",
+          "show_disk": true
+        }
+      },
+      "password-background": {
+        "type": "password-background",
+        "settings": {
+          "show_video_bg": false,
+          "background_video_url": "",
+          "show_image_bg": false,
+          "bg_blur": 6,
+          "bg_brightness": 10,
+          "bg_hue": 0,
+          "bg_grayscale": 0,
+          "bg_sepia": 0,
+          "bg_invert": 0
+        }
+      },
+      "password-header": {
+        "type": "password-header",
+        "settings": {
+          "logo_max_width": "100",
+          "show_date_time": true,
+          "index_date_color": "#ffffff",
+          "index_time_color": "#ffffff",
+          "timezone": "America/New_York"
+        }
+      },
+      "password-content": {
+        "type": "password-content",
+        "settings": {
+          "title": "Opening Soon",
+          "enter_pass_text": "Enter Password",
+          "newsletter_enable": true,
+          "newsletter_form_heading": "Be the first to know when we launch",
+          "newsletter_form_subheading": "<p>Promotions, new products and sales. Directly to your inbox.</p>",
+          "newsletter_placeholder": "Email address",
+          "newsletter_button_text": "Submit",
+          "show_pw_social": true,
+          "enable_timer": false,
+          "timer_date": "",
+          "timer_number_color": "#ffffff",
+          "timer_number_size": 40,
+          "timer_text_color": "#ffffff",
+          "timer_text_size": 14,
+          "head1": "Heading",
+          "heading_text_size": 16,
+          "text1": "Text",
+          "text_text_size": 14
+        }
+      },
+      "collection-template": {
+        "type": "collection-template",
+        "settings": {
+          "vendor_show": false,
+          "collection_sort_enable": true,
+          "collection_tag_enable": false
+        }
+      },
+      "webexp-popup": {
+        "type": "webexp-popup",
+        "settings": {
+          "show_popup": true,
+          "show_only_on_index": false,
+          "show_only_once": true,
+          "apparition_delay": 5,
+          "logo_width": 100,
+          "title": "Popup",
+          "content": "<p>You can use this popup to display some useful information to your customers.</p>",
+          "show_newsletter": true,
+          "background_color": "#000000",
+          "text_color": "#ffffff",
+          "button_text_color": "#000000",
+          "button_bg_color": "#c0c0c0",
+          "button_border_color": "#ffffff"
+        }
+      }
+    },
+    "content_for_index": []
+  }
+}

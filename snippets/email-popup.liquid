@@ -1,0 +1,183 @@
+<style>
+  /* Existing CSS styles */
+  .email-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ settings.email_modal_outside_color | default: '#000' }};
+    backdrop-filter: blur(8px) brightness(1) hue-rotate(1deg) !important;
+    -webkit-backdrop-filter: blur(8px) brightness(1) hue-rotate(1deg) !important;
+    z-index: 1000;
+  }
+
+  .email-popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: {{ settings.email_modal_background_color | default: '#FE0000' }};
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    width: 90%;
+    border: 2px solid {{ settings.email_modal_content_border_color | default: '#FFF' }};
+    background-image: url({{ settings.email_modal_background_img | default: '' }});
+    opacity: {{ settings.email_modal_content_opacity | default: 1 }};
+  }
+
+  .email-popup-close {
+    font-size: x-large;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    color: {{ settings.email_modal_cancel_btn | default: '#FFF' }};
+  }
+
+  .email-popup-content h2 {
+    color: {{ settings.email_modal_header_color | default: '#FFF' }};
+  }
+
+  .email-popup-content p {
+    color: {{ settings.email_modal_description_color | default: '#FFF' }};
+  }
+
+  .email-popup-content input[type="email"] {
+    background-color: {{ settings.email_modal_input_color | default: '#FFF' }};
+    color: {{ settings.email_modal_txt_color | default: '#000' }};
+    height: 2.5vh;
+  }
+
+  @media all and (max-width: 900px) {
+    .email-popup-content input[type="email"] {
+      height: 5vh;
+    }
+  }
+
+  .email-popup-content button {
+    background-color: {{ settings.email_modal_btn_color | default: '#FE0000' }};
+    color: {{ settings.email_modal_btn_txt_color | default: '#FFF' }};
+    height: 2.5vh;
+  }
+
+  @media all and (max-width: 900px) {
+    .email-popup-content button {
+      height: 5vh;
+    }
+  }
+
+  .email-popup-logo {
+    display: {{ settings.show_email_modal_logo ? 'block' : 'none' }};
+    width: {{ settings.email_modal_logo_size | default: 45 }}px;
+    margin-bottom: 20px;
+  }
+
+  input[type="email"]::placeholder {
+    color: {{ settings.email_modal_placeholder_txt_color | default: '#FE0000' }} !important;
+    opacity: 1;
+  }
+</style>
+
+{% unless settings.disable_email_modal %}
+<div id="emailPopup" class="email-popup">
+  <div class="email-popup-content">
+    <span class="email-popup-close">&times;</span>
+    {% if settings.show_email_modal_logo and settings.email_modal_logo %}
+      <img src="{{ settings.email_modal_logo | img_url: 'master' }}" alt="Popup Logo" class="email-popup-logo" style="width: {{ section.settings.email_modal_logo_size }}px;">
+    {% endif %}
+    <h2>{{ settings.email_modal_header | default: 'Sign Up for exclusive drops' }}</h2>
+    <p>{{ settings.email_modal_description | default: 'Join our mailing list for early access to new drops!' }}</p>
+    <div id="form-container">
+      {% form 'customer' %}
+        {{ form.errors | default_errors }}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" placeholder="Enter Email" required>
+        <button type="submit">{{ settings.email_modal_submit_btn | default: 'Join' }}</button>
+      {% endform %}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Function to get a cookie by name
+  function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
+  // Function to set a cookie
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+      let date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var popup = document.getElementById('emailPopup');
+    var closeBtn = popup.querySelector('.email-popup-close');
+    var formContainer = document.getElementById('form-container');
+    var form = formContainer.querySelector('form');
+
+    // Check if the user is already subscribed or has closed the popup
+    if (!getCookie('email_subscribed') && !getCookie('popup_closed')) {
+      // Show popup after 5 seconds if not subscribed
+      setTimeout(function() {
+        popup.style.display = 'block';
+      }, 5000);
+    }
+
+    // Close the popup when the close button is clicked
+    closeBtn.addEventListener('click', function() {
+      popup.style.display = 'none';
+      setCookie('popup_closed', 'true', 1); // Set a cookie to not show the popup again for the session
+    });
+
+    // Close the popup when clicking outside the content
+    popup.addEventListener('click', function(event) {
+      if (event.target === popup) {
+        popup.style.display = 'none';
+        setCookie('popup_closed', 'true', 1); // Set cookie to not show the popup again
+      }
+    });
+
+    // Listen for form submission
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Use the form's native submission to let Shopify handle it
+      var emailInput = form.querySelector('input[name="contact[email]"]');
+      if (emailInput.value) {
+        // Make sure the email input is not empty
+        form.submit(); // Submit the form
+
+        // Wait for successful submission before changing the content
+        form.addEventListener('ajax:success', function() {
+          // Set the 'email_subscribed' cookie after successful submission
+          setCookie('email_subscribed', 'true', 365); // Set cookie for 1 year
+          formContainer.innerHTML = '<h2>{{ settings.email_modal_success_msg | default: "Thank you!" }}</h2><p>You\'ve been successfully added to our mailing list.</p>';
+
+          // Close popup after 2 seconds
+          setTimeout(function() {
+            popup.style.display = 'none';
+          }, 2000);
+        });
+
+        // Handle error
+        form.addEventListener('ajax:error', function(event) {
+          console.error('Form submission error:', event);
+          // Optionally show an error message to the user here
+        });
+      }
+    });
+  });
+</script>
+{% endunless %}
+

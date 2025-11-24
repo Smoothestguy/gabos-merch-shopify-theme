@@ -1,0 +1,175 @@
+{% if section.settings.show_video_bg or section.settings.show_image_bg %}
+  <div class="background-container">
+    {% if section.settings.show_video_bg %}
+      <video autoplay loop muted playsinline class="background-container__video">
+        <source src="{{ section.settings.background_video_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    {% elsif section.settings.show_image_bg %}
+      <div class="background-container__image" style="background-image: url({{ section.settings.background_image_url | img_url: 'master' }});"></div>
+    {% endif %}
+    
+    <!-- Add a div that will act as the blur overlay -->
+    <div class="background-container__overlay"></div>
+  </div>
+{% endif %}
+
+<style>
+/* Background Container */
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Video Background */
+.background-container__video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  background-size: cover;
+  object-fit: cover;
+}
+
+/* Image Background */
+.background-container__image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* Blur Overlay */
+.background-container__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur({{ section.settings.bg_blur }}px) brightness({{ section.settings.bg_brightness }}%) hue-rotate({{ section.settings.bg_hue }}deg) grayscale({{ section.settings.bg_grayscale }}%) sepia({{ section.settings.bg_sepia }}%) invert({{ section.settings.bg_invert }}%) !important;
+  -webkit-backdrop-filter: blur({{ section.settings.bg_blur }}px) brightness({{ section.settings.bg_brightness }}%) hue-rotate({{ section.settings.bg_hue }}deg) grayscale({{ section.settings.bg_grayscale }}%) sepia({{ section.settings.bg_sepia }}%) invert({{ section.settings.bg_invert }}%) !important;
+  z-index: 1;
+}
+
+/* Ensure all other content stays above */
+body, .content {
+  position: relative;
+  z-index: 2;
+}
+</style>
+
+{% schema %}
+  {
+    "name": "Website Background",
+    "settings": [
+      {
+         "type": "paragraph",
+         "content": "Apply a Video or Image Background to your website. To reveal a solid color background, uncheck both Image and Video options."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_video_bg",
+        "label": "Show Video Background",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "background_video_url",
+        "label": "Background Video URL",
+        "info": "Upload your video file inside of content > files, then paste the link here. When not in use, leave unchecked to increase website loading speeds. [Click Here To Go To Files Tab](/admin/settings/files)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_image_bg",
+        "label": "Show Image Background",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image_url",
+        "label": "Background Image",
+        "info": "Upload an image to use as a background."
+      },
+       {
+         "type": "header",
+         "content": "Background Effects",
+          "info": "Effects apply on both image and video background."
+      },
+      {
+        "type": "range",
+        "id": "bg_blur",
+        "label": "Background Blur",
+        "default": 2,
+        "min": 0,
+        "max": 12,
+        "step": 2,
+        "unit": "px"
+      },
+      {
+      "type": "range",
+      "id": "bg_brightness",
+      "label": "Video Background Brightness",
+      "info": "Increase / Decrease the brightness of your video background to your liking.",
+      "default": 10,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+      {
+        "type": "range",
+        "id": "bg_hue",
+        "label": "Background Hue",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "deg"
+      },
+      {
+        "type": "range",
+        "id": "bg_grayscale",
+        "label": "Background Grayscale",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "bg_sepia",
+        "label": "Background Sepia",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "bg_invert",
+        "label": "Background Invert",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%"
+      }
+    ]
+  }
+{% endschema %}

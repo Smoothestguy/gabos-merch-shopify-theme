@@ -1,0 +1,359 @@
+{%- if section.settings.show_popup -%}
+  {%- unless section.settings.show_only_on_index and template != 'index' -%}
+    {%- unless section.settings.show_only_for_visitors and customer -%}
+      {% capture section_settings %}
+        {
+          "apparitionDelay": {{ section.settings.apparition_delay | json }},
+          "showOnlyOnce": {{ section.settings.show_only_once | json }}
+        }
+      {% endcapture %}
+
+      <!-- Overlay Element -->
+      <div class="popup-overlay" aria-hidden="true"></div>
+      
+      <aside class="NewsletterPopup" data-section-id="{{ section.id }}" data-section-type="newsletter-popup" data-section-settings='{{ section_settings }}' aria-hidden="true">
+  <button class="NewsletterPopup__Close" data-action="close-popup">{% include 'icon' with 'close' %}</button>
+
+{%- if section.settings.logo != blank -%}
+  <img 
+    src="{{ section.settings.logo | img_url: 'medium' }}" 
+    alt="Newsletter Logo" 
+    class="NewsletterPopup__Logo"
+    style="width: {{ section.settings.logo_width }}px;">
+{%- endif -%}
+
+  {%- if section.settings.title != blank -%}
+    <h2 class="NewsletterPopup__Heading Heading u-h2">{{ section.settings.title | escape }}</h2>
+  {%- endif -%}
+
+  {%- if section.settings.content != blank -%}
+    <div class="NewsletterPopup__Content">
+      {{ section.settings.content }}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_newsletter -%}
+    {%- form 'customer', id: 'newsletter-popup', action: '/contact#newsletter-popup', class: 'NewsletterPopup__Form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="Form__Alert Alert Alert--success">Thank You For Subscribing!</p>
+      {%- else -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" class="pop_form__input" required="required" aria-label="Enter Email" placeholder="Enter Email">
+        <button class="Form__Submit Button Button--primary Button--full" type="submit">Submit</button>
+      {%- endif -%}
+    {%- endform -%}
+  {%- endif -%}
+</aside>
+    {%- endunless -%}
+  {%- endunless -%}
+{%- endif -%}
+
+
+
+<style>
+
+  .NewsletterPopup__Logo {
+  max-width: 150px;
+  margin: 0 auto 15px;
+  display: block;
+}
+
+  .pop_form__input::placeholder {
+  color: #808080;
+}
+
+.pop_form__input::-webkit-input-placeholder {
+  color: #808080; /* For WebKit browsers */
+}
+
+.pop_form__input:-ms-input-placeholder {
+  color: #808080; /* For Internet Explorer */
+}
+
+.Form__Submit:hover {
+  background-color: rgba(0, 0, 0, 0.2); /* Adjust the opacity as needed */
+  border-color: rgba(0, 0, 0, 0.2);
+}
+ 
+  .NewsletterPopup {
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+
+  .NewsletterPopup__Heading {
+    color: {{ section.settings.text_color }};
+  }
+
+  .Form__Input::placeholder {
+    color: #808080;
+  }
+
+  .Button {
+  border-color: {{ section.settings.button_border_color }} !important;
+  color: {{ section.settings.button_text_color }} !important;
+    background-color: {{ section.settings.button_bg_color }} !important;
+  font-size: medium;
+}
+
+  .pop_form__input {
+     color: {{ section.settings.text_color }};
+  }
+
+  .NewsletterPopup {
+  position: fixed;
+  bottom: 10px;
+  left: 15px;
+  width: calc(100% - 30px);
+  padding: 24px 30px 30px 30px;
+  z-index: 999999;
+  text-align: center;
+  -webkit-box-shadow: 0 1px 4px rgba(#000000, 0.3);
+  box-shadow: 0 1px 4px rgba(#000000, 0.3);
+  visibility: hidden;
+  -webkit-transform: translateY(25px);
+  transform: translateY(25px);
+  opacity: 0;
+ transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth easing function */
+
+      @media screen and (max-width: 999px) {
+
+         /* bottom: 26%; */
+
+      }
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  backdrop-filter: blur(5px) !important; /* Blur effect */
+  -webkit-backdrop-filter: blur(5px) !important; /* For Safari */
+  z-index: 999998; /* Behind the popup */
+  visibility: hidden; /* Hidden by default */
+  opacity: 0; /* Fully transparent */
+  transition: visibility 0s 0.5s, opacity 0.5s; /* Delay visibility change until fade out */
+}
+
+/* Show Overlay */
+.popup-overlay[aria-hidden="false"] {
+  visibility: visible; /* Show when aria-hidden is false */
+  opacity: 1; /* Fully opaque */
+  transition: opacity 0.5s; /* Smooth fade in */
+  transition-delay: 0s; /* Remove delay for showing */
+}
+
+
+.NewsletterPopup[aria-hidden="false"] {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+  
+  .Heading {
+    color: inherit;
+  }
+
+  .Form__Input::-webkit-input-placeholder {
+    color: #808080;
+  }
+
+  .Form__Input:-ms-input-placeholder {
+    color:  #808080;
+  }
+
+  .Form__Input::placeholder {
+    color:  #808080;
+  }
+
+
+
+.NewsletterPopup[aria-hidden="false"] {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.NewsletterPopup__Close {
+   color: {{ section.settings.button_text_color }} !important;
+    background-color: {{ section.settings.button_bg_color }} !important;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  padding: 5px;
+
+  svg {
+    display: block;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.NewsletterPopup__Content a {
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
+.NewsletterPopup__Form {
+  margin-top: 32px;
+}
+
+
+</style>
+
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+  const popup = document.querySelector('.NewsletterPopup');
+  const overlay = document.querySelector('.popup-overlay');
+  const closeBtn = document.querySelector('.NewsletterPopup__Close');
+  const form = document.querySelector('.NewsletterPopup__Form');
+  const sectionSettings = JSON.parse(popup.dataset.sectionSettings);
+
+  const isCustomer = Boolean({{ customer | json }});
+  const isHomePage = "{{ template }}" === "index";
+  const hasSubscribed = localStorage.getItem('userSubscribed') === 'true';
+  const hasSeenPopup = localStorage.getItem('newsletterPopupShown') === 'true';
+
+  if (sectionSettings.showOnlyForVisitors && isCustomer) return;
+  if (sectionSettings.showOnlyOnIndex && !isHomePage) return;
+  if (sectionSettings.showOnlyOnce && (hasSeenPopup || hasSubscribed)) return;
+
+  // Show popup and overlay after the delay
+  setTimeout(() => {
+    popup.setAttribute('aria-hidden', 'false');
+    overlay.setAttribute('aria-hidden', 'false');
+  }, sectionSettings.apparitionDelay * 1000);
+
+  // Close popup on button click
+  closeBtn.addEventListener('click', () => {
+    popup.setAttribute('aria-hidden', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    localStorage.setItem('newsletterPopupShown', 'true');
+  });
+
+  // Handle form submission
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent page reload
+
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => {
+        if (response.ok) {
+          localStorage.setItem('userSubscribed', 'true');
+          form.innerHTML = '<p class="Form__Alert Alert--success">Thank You For Subscribing!</p>';
+        } else {
+          console.error('Subscription error:', response);
+        }
+      })
+      .catch(error => console.error('Network error:', error));
+  });
+});
+
+
+</script>
+{% schema %}
+{
+  "name": "Popup",
+  "settings": [
+    
+    {
+      "type": "checkbox",
+      "id": "show_popup",
+      "label": "Enable Pop Up",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_on_index",
+      "label": "Show only on home page",
+      "info": "If Enter Page Is Enabled, Leave This Unchecked. Pop up will not appear on enter page.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_once",
+      "label": "Show only once per customer",
+      "info": "When enabled, this popup will only show up once per visit. After a visitor has submitted / exited the pop up, it wont show up again until the next time they visit. Uncheck when customizing your popup, otherwise leave checked to avoid a bad user experience on your website.",
+      "default": true
+    },
+     {
+      "type": "range",
+      "id": "apparition_delay",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "unit": "sec",
+      "label": "Delay until the popup appears",
+      "default": 5
+    },
+     {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "number",
+      "id": "logo_width",
+      "label": "Logo Width (in pixels)",
+      "default": 100
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Popup"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Text",
+      "default": "<p>You can use this popup to display some useful information to your customers.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter form",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Pop Up Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Pop Up Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#000000"
+    },
+     {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#c0c0c0"
+    },
+      {
+      "type": "color",
+      "id": "button_border_color", // Changed ID here
+      "label": "Button Border Color", // New label for clarity
+        "info": "Leave Blank To Display No Border",
+      "default": "#ffffff"
+    }
+  ]
+}
+{% endschema %}

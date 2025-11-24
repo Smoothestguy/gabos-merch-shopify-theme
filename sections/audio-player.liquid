@@ -1,0 +1,263 @@
+{% if section.settings.enable_audio_player %}
+  <div id="music-container" style="position: fixed; right: 10px; bottom: 10px; z-index: 9999; display: flex; flex-direction: column; align-items: center;">
+    
+    <!-- CD Disk Image -->
+
+    
+    <div id="cd-disk" class="cd-disk" style="position: relative; width: 65px; height: 65px; display: {% if section.settings.show_disk %}block{% else %}none{% endif %};">
+     
+      <img id="cd-background" 
+        src="https://cdn.shopify.com/s/files/1/0675/6492/9256/files/Disc_1-min.png?v=1728021272" 
+        alt="cd-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; border-radius: 50%;" width="100%" height="100%" >
+     
+      <img id="cd-cover" src="{{ section.settings.musica_img | img_url: 'master' }}" alt="cd-cover" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; opacity: 0.85; border-radius: 50%;" width="100%" height="100%">
+      
+      <div id="cd-center" style="position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; background-color: white; border-radius: 50%; z-index: 3; transform: translate(-50%, -50%);"></div>
+    </div>
+ 
+    
+    <!-- Music Icon (Play/Pause Button) -->
+    <div 
+      id="music-icon" 
+      class="music-icons" 
+      style="margin-top: 10px; opacity: {{ section.settings.audio_player_opacity }}% !important;"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="{{ section.settings.audio_player_color }}"
+      >
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </div>
+
+  </div>
+
+  {% assign audio_file_url = section.settings.audio_file_url %}
+  {% if audio_file_url %}
+    <audio id="audio-player" src="{{ audio_file_url }}" type="audio/mp3" loop preload="metadata"></audio>
+  {% endif %}
+
+  <style>
+      
+    .cd-disk {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s;
+    }
+
+   
+    .cd-disk.visible {
+      opacity: 1;   
+      visibility: visible;
+    }
+
+  
+    
+    .cd-rotate {
+      animation: rotate 2s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive layout for mobile */
+    @media (max-width: 768px) {
+      #music-container {
+        flex-direction: column-reverse;
+        right: 10px;
+        bottom: 20px;
+      }
+
+      #cd-disk {
+        margin-bottom: 10px;
+      }
+    }
+
+    #music-icon {
+  margin-top: 10px;
+  opacity: {{ section.settings.audio_player_opacity }}% !important;
+  cursor: pointer; /* Add this line */
+}
+  </style>
+
+ <script>
+  (function() {
+    let musicIcon;
+    let audioPlayer;
+    let cdDisk;
+    const isAudioPlaying = "isAudioPlaying";
+    const currentAudioTime = "currentAudioTime";
+    let isFirstInteraction = true;
+
+    function initAudioPlayer() {
+      musicIcon = document.getElementById("music-icon");
+      audioPlayer = document.getElementById("audio-player");
+      cdDisk = document.getElementById("cd-disk");
+
+      if (!musicIcon || !audioPlayer || !cdDisk) {
+        console.warn("Music player elements not found");
+        return;
+      }
+
+      const updateIcon = () => {
+        const playButton = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="{{ section.settings.audio_player_color }}"><path d="M8 5v14l11-7z"/></svg>`;
+        const pauseButton = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="{{ section.settings.audio_player_color }}"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 6h2v12h-2zm4 0h2v12h-2z"/></svg>`;
+        musicIcon.innerHTML = audioPlayer.paused ? playButton : pauseButton;
+      };
+
+      const playAudio = () => {
+        const playPromise = audioPlayer.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            localStorage.setItem(isAudioPlaying, "true");
+            updateIcon();
+            cdDisk.classList.add("cd-rotate", "visible");
+          }).catch(error => {
+            console.error("Playback error:", error);
+          });
+        }
+      };
+
+      const pauseAudio = () => {
+        audioPlayer.pause();
+        localStorage.setItem(isAudioPlaying, "false");
+        updateIcon();
+        cdDisk.classList.remove("cd-rotate", "visible");
+      };
+
+      const toggleAudio = () => {
+        if (audioPlayer.paused) {
+          playAudio();
+        } else {
+          pauseAudio();
+        }
+      };
+
+      musicIcon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleAudio();
+      });
+
+      musicIcon.addEventListener("touchend", (e) => {
+        e.preventDefault();  // Prevents default behavior
+        e.stopPropagation();
+        toggleAudio();
+      });
+
+      const attemptAutoplay = () => {
+        if (localStorage.getItem(isAudioPlaying) === "true") {
+          playAudio();
+        } else {
+          pauseAudio();
+        }
+      };
+
+      // Attempt autoplay on user interaction
+      const handleInteraction = () => {
+        if (isFirstInteraction) {
+          attemptAutoplay();
+          isFirstInteraction = false;
+        }
+      };
+
+      ["click", "touchstart", "keydown", "scroll", "mousemove"].forEach(event => {
+        document.addEventListener(event, handleInteraction, { passive: true });
+      });
+
+      const saveAudioState = () => {
+        if (!audioPlayer.paused) {
+          localStorage.setItem(currentAudioTime, audioPlayer.currentTime.toString());
+        }
+      };
+
+      setInterval(saveAudioState, 1000);
+      window.addEventListener("beforeunload", saveAudioState);
+
+      const restoreAudioState = () => {
+        const savedTime = parseFloat(localStorage.getItem(currentAudioTime)) || 0;
+        audioPlayer.currentTime = savedTime;
+        attemptAutoplay();
+      };
+
+      restoreAudioState();
+      setTimeout(restoreAudioState, 100);
+
+      window.addEventListener("storage", (event) => {
+        if (event.key === isAudioPlaying) {
+          if (event.newValue === "true") {
+            playAudio();
+          } else {
+            pauseAudio();
+          }
+        } else if (event.key === currentAudioTime) {
+          audioPlayer.currentTime = parseFloat(event.newValue) || 0;
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAudioPlayer);
+    } else {
+      initAudioPlayer();
+    }
+  })();
+</script>
+
+{% endif %}
+        
+{% schema %}
+{
+"name": "Music Player",
+"settings": [
+{
+"type": "checkbox",
+"id": "enable_audio_player",
+"label": "Enable Music Player",
+"default": false
+},
+{
+"type": "text",
+"id": "audio_file_url",
+"label": "Music File URL",
+  "info": "Upload your MP3 file in the Contents --> Files Tab. Then, copy the link and paste it in here. Don't Forget to hit save. [Click Here To Go To Files Tab](/admin/settings/files)"
+},
+
+  {
+  "type": "range",
+  "id": "audio_player_opacity",
+  "min": 1,
+  "max": 100,
+  "step": 1,
+  "unit": "%",
+  "label": "Play Button Opacity",
+  "default": 100
+},
+  
+{
+"type": "color",
+"id": "audio_player_color",
+"label": "Play Button Color",
+"default": "#ffffff"
+},
+  {
+  "type": "checkbox",
+  "id": "show_disk",
+  "label": "Show CD Disc",
+  "default": true
+},
+   {
+        "type": "image_picker",
+        "id": "musica_img",
+        "label": "Disc Cover Image"
+      }
+
+  
+]
+}
+{% endschema %}
+           

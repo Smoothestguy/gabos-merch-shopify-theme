@@ -1,0 +1,778 @@
+{% comment %}
+
+   oooooo   oooooo     oooo  oooooooo8     oooooooo8
+    `888.    `888.     .8' 888           888
+     `888.   .8888.   .8'  888           888
+      `888  .8'`888. .8'   888           888
+       `888.8'  `888.8'    888            888     oooo
+        `888'    `888'      888     ooo    888     888
+         `8'      `8'        888ooo88       888ooo88
+
+
+                                     Theme Name: "SMPL"
+                                 Theme Author: "CODEWCG"
+                                   Theme Version: "2.0.0"
+                          Theme Support: "https://codewcg.com/"
+
+              This theme has been customized by CODEWCG.
+                     Thank you, enjoy your Shopify Theme!
+                                       www.codewcg.com
+
+{% endcomment %}
+
+{% if section.settings.show_enter_page %}
+  <div class="enter-page {% if section.settings.background_type == 'solid' %}solid{% elsif section.settings.background_type == 'image' %}image{% elsif section.settings.background_type == 'video' %}video{% endif %}">
+    <div class="enter-page__content">
+  <!-- Logo -->
+{% if section.settings.logo_type == 'video' and section.settings.logo_video_url != blank %}
+  <video class="enter-page__logo enter-page__logo-video"
+         autoplay
+         loop
+         muted
+         playsinline>
+    <source src="{{ section.settings.logo_video_url }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+{% elsif section.settings.logo %}
+  <img src="{{ section.settings.logo | img_url: 'large' }}"
+       alt="Logo"
+       class="enter-page__logo" />
+{% endif %}
+
+      <!-- Date & Time (if enabled) -->
+      {% if section.settings.show_date_time_enter %}
+        <div class="enterdate-time-container">
+          <div class="date" 
+               id="dateDisplay" 
+               style="color: {{ section.settings.entertimedate_color }};">
+          </div>
+          <div class="time" 
+               id="timeDisplay" 
+               style="color: {{ section.settings.entertimedate_color }};">
+          </div>
+        </div>
+      {% endif %}
+
+ <!-- Navigation Menu -->
+<nav class="enter-page__nav">
+  <ul>
+    {% assign menu = linklists[section.settings.selected_menu] %}
+    {% if menu %}
+      {% for link in menu.links %}
+        <li>
+          <a href="{{ link.url }}" class="enter-page__link">
+            {{ link.title }}
+          </a>
+        </li>
+      {% endfor %}
+    {% else %}
+      <li>No menu selected</li>
+    {% endif %}
+  </ul>
+</nav>
+
+
+      {% if section.settings.show_social_enter %}
+        <!-- Social Icons -->
+        <div class="enter-page__social">
+          <ul class="list--inline entersocial-links">
+            {% if settings.social_facebook_link != blank %}
+              <li>
+                <a href="{{ settings.social_facebook_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                  {% include 'icon-facebook' %}
+                  <span class="icon__fallback-text">Facebook</span>
+                </a>
+              </li>
+            {% endif %}
+           {% if settings.social_twitter_link != blank %}
+              <li>
+                <a href="{{ settings.social_twitter_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+                  {% include 'icon-twitter' %}
+                  <span class="icon__fallback-text">Twitter</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_pinterest_link != blank %}
+              <li>
+                <a href="{{ settings.social_pinterest_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+                  {% include 'icon-pinterest' %}
+                  <span class="icon__fallback-text">Pinterest</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_instagram_link != blank %}
+              <li>
+                <a href="{{ settings.social_instagram_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+                  {% include 'icon-instagram' %}
+                  <span class="icon__fallback-text">Instagram</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_snapchat_link != blank %}
+              <li>
+                <a href="{{ settings.social_snapchat_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Snapchat' }}">
+                  {% include 'icon-snapchat' %}
+                  <span class="icon__fallback-text">Snapchat</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_google_plus_link != blank %}
+              <li>
+                <a href="{{ settings.social_google_plus_link | escape }}" rel="publisher" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Google Plus' }}">
+                  {% include 'icon-google-plus' %}
+                  <span class="icon__fallback-text">Google Plus</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_tumblr_link != blank %}
+              <li>
+                <a href="{{ settings.social_tumblr_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tumblr' }}">
+                  {% include 'icon-tumblr' %}
+                  <span class="icon__fallback-text">Tumblr</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_youtube_link != blank %}
+              <li>
+                <a href="{{ settings.social_youtube_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+                  {% include 'icon-youtube' %}
+                  <span class="icon__fallback-text">YouTube</span>
+                </a>
+              </li>
+            {% endif %}
+             {% if settings.social_tiktok_link != blank %}
+          <li>
+            <a href="{{ settings.social_tiktok_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tiktok' }}">
+              {% include 'icon-tiktok' %}
+              <span class="icon__fallback-text">Tiktok</span>
+            </a>
+          </li>
+        {% endif %}
+            {% if settings.social_vimeo_link != blank %}
+              <li>
+                <a href="{{ settings.social_vimeo_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Vimeo' }}">
+                  {% include 'icon-vimeo' %}
+                  <span class="icon__fallback-text">Vimeo</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_fancy_link != blank %}
+              <li>
+                <a href="{{ settings.social_fancy_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Fancy' }}">
+                  {% include 'icon-fancy' %}
+                  <span class="icon__fallback-text">Fancy</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_apple_link != blank %}
+              <li>
+                <a href="{{ settings.social_apple_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Apple Music' }}">
+                  {% include 'icon-apple' %}
+                  <span class="icon__fallback-text">Apple Music</span>
+                </a>
+              </li>
+            {% endif %}
+             {% if settings.social_spotify_link != blank %}
+              <li>
+                <a href="{{ settings.social_spotify_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Spotify' }}">
+                  {% include 'icon-spotify' %}
+                  <span class="icon__fallback-text">Spotify</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_soundcloud_link != blank %}
+              <li>
+                <a href="{{ settings.social_soundcloud_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Soundcloud' }}">
+                  {% include 'icon-soundcloud' %}
+                  <span class="icon__fallback-text">Soundcloud</span>
+                </a>
+              </li>
+            {% endif %}
+             {% if settings.social_tidal_link != blank %}
+              <li>
+                <a href="{{ settings.social_tidal_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Tidal' }}">
+                  {% include 'icon-tidal' %}
+                  <span class="icon__fallback-text">Tidal</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.social_azmusic_link != blank %}
+              <li>
+                <a href="{{ settings.social_azmusic_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Amazon Music' }}">
+                  {% include 'icon-azmusic' %}
+                  <span class="icon__fallback-text">Amazon Music</span>
+                </a>
+              </li>
+            {% endif %}
+             {% if settings.social_ytmusic_link != blank %}
+              <li>
+                <a href="{{ settings.social_ytmusic_link | escape }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Youtube Music' }}">
+                  {% include 'icon-ytmusic' %}
+                  <span class="icon__fallback-text">Youtube Music</span>
+                </a>
+              </li>
+            {% endif %}
+            {% if settings.main_blog != blank %}
+              <li>
+                <a href="/blogs/{{ settings.main_blog }}.atom">
+                  {% include 'icon-rss' %}
+                  <span class="icon__fallback-text">Blog</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Video Element for Video Background -->
+    {% if section.settings.background_type == 'video' %}
+      <video class="enter-page__video" autoplay muted loop playsinline>
+        <source src="{{ section.settings.background_video_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    {% endif %}
+  </div>
+{% endif %}
+
+<!-- Styling -->
+<style>
+
+   body {
+   
+      overflow: hidden; 
+    }
+  html {
+    overflow: hidden;
+  }
+
+  
+.enter-page__link {
+  transition: transform 0.4s ease; 
+  background-color: transparent; /* Starting state */
+  display: inline-block; /* Added */
+}
+
+.enter-page__link:hover {
+  transform: scale(1.035); 
+ 
+}
+
+.entersocial-links li {
+  transition: transform 0.4s ease; 
+  background-color: transparent; /* Starting state */
+  display: inline-block; /* Added */
+}
+
+.entersocial-links li:hover {
+  transform: scale(1.035); 
+ 
+}
+
+  .enter-page {
+    position: fixed !important; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    overflow: hidden;
+    background: black;
+  }
+
+   .enter-page__nav ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .enter-page__nav li {
+    margin-bottom: 10px;
+  }
+
+  .enter-page__link {
+    font-size: {{ section.settings.nav_link_size }}px !important;
+    color: {{ section.settings.navmenu_color }};   
+    text-decoration: none;
+  }
+  
+  /* Solid Background */
+  .enter-page.solid {
+    background-color: {{ section.settings.solid_background_color }} !important;
+  }
+
+  /* Image Background */
+  .enter-page.image {
+    background-image: url('{{ section.settings.background_image | img_url: 'master' }}') !important;
+    background-size: cover;
+    background-position: center;
+     overflow: hidden;
+    object-fit: cover;
+      position: absolute;
+    
+  }
+
+  /* Video Background */
+  .enter-page.video {
+    background: none;
+  }
+
+  .enter-page__video {
+    background: black;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2; 
+  }
+
+  /* Backdrop Filter for Image and Video Backgrounds */
+  .enter-page.image::before,
+  .enter-page.video::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur({{ section.settings.bg_blur }}px) 
+                     brightness({{ section.settings.bg_brightness }}%) 
+                     hue-rotate({{ section.settings.bg_hue }}deg) 
+                     grayscale({{ section.settings.bg_grayscale }}%) 
+                     sepia({{ section.settings.bg_sepia }}%) 
+                     invert({{ section.settings.bg_invert }}%) !important;
+    -webkit-backdrop-filter: blur({{ section.settings.bg_blur }}px) 
+                             brightness({{ section.settings.bg_brightness }}%) 
+                             hue-rotate({{ section.settings.bg_hue }}deg) 
+                             grayscale({{ section.settings.bg_grayscale }}%) 
+                             sepia({{ section.settings.bg_sepia }}%) 
+                             invert({{ section.settings.bg_invert }}%) !important;
+    z-index: -1; 
+    pointer-events: none; 
+  }
+
+  /* Content Styling */
+  .enter-page__content {
+    backdrop-filter: blur({{ section.settings.nav_bg_blur }}px);
+    -webkit-backdrop-filter:  blur({{ section.settings.nav_bg_blur }}px);
+    border-radius: {{ section.settings.nav_con_corners }};
+    background: {{ section.settings.nav_content_bg }}{% if section.settings.show_nav_bg_opacity %}{{ section.settings.nav_bg_color_opacity }}{% endif %};  
+    padding: 5vh 4vw;
+    align-content: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+
+  @media screen and (max-width: 999px) {
+.enter-page__content {
+
+    padding: 5vh 10vw;
+  
+}
+
+  }
+
+  
+  .enter-page__logo {
+    max-width: {{ section.settings.logo_width_ds }}px;
+    margin-bottom: 20px;
+  }
+
+  .enter-page__logo-video {
+    display: block;
+    object-fit: contain;
+  }
+
+  /* Date & Time Container */
+  .enterdate-time-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; 
+    padding-bottom: 10px;
+  }
+
+  .date, .time {
+    font-size: 12px;
+    color: {{ section.settings.entertimedate_color }};
+  }
+
+  /* Social Links Styling */
+  .entersocial-links a {
+    fill: {{ section.settings.social_color }} !important;
+    color: {{ section.settings.social_color }} !important;
+  }
+
+    {% if section.settings.show_ann_enter %}
+.announcement-bar {
+    display: block;
+  }
+
+      .announcement-bar__message {
+         background-color: {{ section.settings.ann_color_bg }} !important;
+      color: {{ section.settings.ann_color_text }} !important;
+      }
+  {% else %}
+  .announcement-bar {
+    display: none;
+  }
+  {% endif %}
+
+
+   .NewsletterPopup {
+display: none;
+  }
+
+
+  .popup-overlay {
+display: none;
+
+  }
+
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    function updateTime() {
+      const timeContainer = document.querySelector(".time");
+      const dateContainer = document.querySelector(".date");
+      const selectedTimeZone = "{{ section.settings.timezone }}"; // Get selected timezone from settings
+      const date = new Date();
+      
+      // Use Intl.DateTimeFormat to get time and timezone abbreviation
+      const options = {
+        timeZone: selectedTimeZone,
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true, // Display time in 12-hour format
+        timeZoneName: 'short' // Show timezone abbreviation (e.g., CDT, PST)
+      };
+
+      const dateFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: selectedTimeZone,
+        month: '2-digit',
+        day: '2-digit',
+        year: '2-digit'
+      });
+
+      const timeFormatter = new Intl.DateTimeFormat('en-US', options);
+
+      // Format date and time
+      const formattedDate = dateFormatter.format(date);
+      const formattedTime = timeFormatter.format(date);
+
+      // Update HTML
+      dateContainer.textContent = formattedDate;
+      timeContainer.textContent = formattedTime;
+    }
+
+    updateTime(); // Call initially
+    setInterval(updateTime, 1000); // Update every second to reflect live time
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Enter Page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_enter_page",
+      "label": "Enable Enter Page",
+      "info": "Enabling The Enter Page Will Cover The Home Page.",
+      "default": true
+    },
+     {
+         "type": "header",
+         "content": "Enter Page Announcement Bar",
+          "info": "Customize Your Enter Page Announcement Bar Style."
+      },
+    {
+    "type": "checkbox",
+    "id": "show_ann_enter",
+    "label": "Show Announcement Bar",
+     "info": "You Can Edit The Text In The 'Header' Section.",
+    "default": true
+    },
+    {
+      "type": "color",
+      "id": "ann_color_bg",
+      "label": "Announcement Bar Background Color",
+      "default": "#FFFFFF" 
+    },
+    {
+      "type": "color",
+      "id": "ann_color_text",
+      "label": "Announcement Bar Text Color",
+      "default": "#000000" 
+    },
+     {
+      "type": "radio",
+      "id": "logo_type",
+      "label": "Logo Type",
+      "options": [
+        { "value": "image", "label": "Image" },
+        { "value": "video", "label": "Video" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Enter Page Logo (Image)"
+    },
+    {
+      "type": "text",
+      "id": "logo_video_url",
+      "label": "Logo Video URL (MP4)",
+      "info": "Upload your video/MP4 file inside of content > files, then copy & paste the link here. [Click Here To Go To Files Tab](/admin/settings/files)"
+    },
+    {
+      "type": "text",
+      "id": "logo_width_ds",
+      "label": "Enter Page Logo Width (Px)",
+      "info": "A standard size is within 100 to 150px."
+    },
+     {
+         "type": "header",
+         "content": "Time And Date",
+          "info": "Customize Your Time Add Date Style, Go To The 'Clock' Tab To Select A Time Zone."
+      },
+     {
+    "type": "checkbox",
+    "id": "show_date_time_enter",
+    "label": "Show Date/Time",
+     "info": "Show / Hide The Time And Date On Your Enter Page.",
+    "default": true
+    },
+     {
+      "type": "select",
+      "id": "entertimedate_color",
+      "label": "Time And Date Color",
+      "options": [
+        { "value": "white",
+          "label": "White" },
+         { "value": "grey",
+          "label": "Grey" },
+        { "value": "black",
+          "label": "Black" }
+      ],
+      "default": "white"
+    },
+     
+      {
+         "type": "header",
+         "content": "Navigation Container Style",
+          "info": "Customize Your Navigation Container Style."
+      },
+     {
+      "type": "link_list",
+      "id": "selected_menu",
+      "label": "Select Navigation Menu",
+      "default": "main-menu" 
+    },
+    {
+        "type": "range",
+        "id": "nav_link_size",
+        "label": "Nav Links Font Size",
+        "default": 18,
+        "min": 12,
+        "max": 30,
+        "step": 2
+      },
+    {
+      "type": "select",
+      "id": "navmenu_color",
+      "label": "Navigation Text Color",
+      "options": [
+        { "value": "white",
+          "label": "White" },
+        { "value": "grey",
+          "label": "Grey" },
+        { "value": "black",
+          "label": "Black" }
+      ],
+      "default": "white"
+    },
+      {
+      "type": "select",
+      "id": "nav_con_corners",
+      "label": "Navigation Container Corners",
+      "options": [
+        { "value": "0px",
+          "label": "Square" },
+        { "value": "30px",
+          "label": "Round" }
+      ],
+      "default": "0px"
+    },
+    {
+      "type": "color",
+      "id": "nav_content_bg",
+      "label": "Navigation Background Color",
+      "info": "Leave Input Blank To Reveal A Blur Background.",
+      "default": "#FFFFFF" 
+    },
+    {
+    "type": "checkbox",
+    "id": "show_nav_bg_opacity",
+    "label": "Enable Nav Background Opacity",
+     "info": "Gives The Ablity To Change The Opacity Of Your Nav Background Color, Leave Unchecked To Display A Solid Background Color.",
+    "default": true
+    },
+    {
+        "type": "range",
+        "id": "nav_bg_color_opacity",
+        "label": "Nav Background Color Opacity",
+      "info": "Leave At 0 To Display No Color On Your Nav Background.",
+        "default": 50,
+        "min": 0,
+        "max": 98,
+        "step": 2
+      },
+      {
+        "type": "range",
+        "id": "nav_bg_blur",
+        "label": "Navigation Background Blur Intensity",
+        "info": "To Display No Blur Leave At 0.",
+        "default": 2,
+        "min": 0,
+        "max": 12,
+        "step": 2,
+        "unit": "px"
+      },
+     {
+         "type": "header",
+         "content": "Enter Page Background",
+          "info": "Select Your Enter Page Background Style."
+      },
+     {
+      "type": "radio",
+      "id": "background_type",
+      "label": "Background Type",
+      "options": [
+        { "value": "solid", "label": "Solid Color" },
+        { "value": "image", "label": "Image" },
+        { "value": "video", "label": "Video" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "solid_background_color",
+      "label": "Solid Background Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "background_video_url",
+      "label": "Background Video URL (MP4)",
+      "info": "Upload your video/MP4 file inside of content > files, then copy & paste the link here. [Click Here To Go To Files Tab](/admin/settings/files)"
+    },
+     {
+         "type": "header",
+         "content": "Background Effects",
+          "info": "Effects apply on both image and video background."
+      },
+      {
+        "type": "range",
+        "id": "bg_blur",
+        "label": "Background Blur",
+        "default": 2,
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+      "type": "range",
+      "id": "bg_brightness",
+      "label": "Background Brightness",
+      "info": "Decrease the brightness of your background to your liking.",
+      "default": 10,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+      {
+        "type": "range",
+        "id": "bg_hue",
+        "label": "Background Hue",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "deg"
+      },
+      {
+        "type": "range",
+        "id": "bg_grayscale",
+        "label": "Background Grayscale",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "bg_sepia",
+        "label": "Background Sepia",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "bg_invert",
+        "label": "Background Invert",
+        "default": 0,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%"
+      },
+     {
+         "type": "header",
+         "content": "Enter Page Social Icons"
+      },
+     {
+    "type": "checkbox",
+    "id": "show_social_enter",
+    "label": "Show Social Icons",
+     "info": "Paste Your Social Media Links Inside The Theme Settings, And They Will Automatically Appear Here.",
+    "default": true
+    },
+    {
+      "type": "select",
+      "id": "social_color",
+      "label": "Social Icons Color",
+      "options": [
+        { "value": "white",
+          "label": "White" },
+         { "value": "grey",
+          "label": "Grey" },
+        { "value": "black",
+          "label": "Black" }
+      ],
+      "default": "white"
+    },
+  ]
+}
+{% endschema %}
+

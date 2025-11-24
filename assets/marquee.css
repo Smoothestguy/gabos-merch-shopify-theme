@@ -1,0 +1,44 @@
+.marquee {
+  left: -25px;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 105%;
+  max-width: 105%;
+}
+
+@media screen and (max-width: 950px) {
+.marquee {
+  left: -25px;
+ width: 120%;
+  max-width: 120%;
+}
+}
+
+.marquee span {
+  display: inline-block;
+  padding-left: 102%;
+  animation: marquee var(--moving-scroll-speed) linear infinite;
+  text-align: right;
+  animation-delay: -10s;
+}
+.marquee2 span {
+  animation-delay: 0s;
+}
+@keyframes marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-100%, 0);
+  }
+}
+@media screen and (max-width: 511px) {
+  .marquee span {
+      display: inline-block;
+      padding-left: 101%;
+      animation: marquee 10s linear infinite;
+      text-align: right;
+      animation-delay: -10s; 
+  }
+}
