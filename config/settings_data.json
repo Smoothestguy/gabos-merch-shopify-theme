@@ -85,14 +85,15 @@
       "website-background": {
         "type": "website-background",
         "settings": {
-          "show_video_bg": false,
-          "background_video_url": "",
-          "show_image_bg": false,
-          "bg_blur": 4,
-          "bg_brightness": 90,
+          "show_video_bg": true,
+          "background_video_url": "https://cdn.shopify.com/videos/c/o/v/4a864596f01942bb982885a640a1435c.mp4",
+          "show_image_bg": true,
+          "background_image_url": "shopify://shop_images/IMG_3409.jpg",
+          "bg_blur": 0,
+          "bg_brightness": 98,
           "bg_hue": 0,
-          "bg_grayscale": 100,
-          "bg_sepia": 0,
+          "bg_grayscale": 26,
+          "bg_sepia": 3,
           "bg_invert": 0
         }
       },
@@ -121,7 +122,7 @@
         "type": "timendate",
         "settings": {
           "show_date_time": true,
-          "index_date_color": "#000000",
+          "index_date_color": "#ffffff",
           "index_time_color": "#ffffff",
           "timezone": "America/Chicago"
         }
