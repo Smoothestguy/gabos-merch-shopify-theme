@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_body_bg": "#000000",
@@ -44,23 +53,25 @@
         "type": "enter-page",
         "settings": {
           "show_enter_page": true,
-          "show_ann_enter": true,
+          "show_ann_enter": false,
           "ann_color_bg": "#ffffff",
           "ann_color_text": "#000000",
-          "logo_width_ds": "120",
+          "logo_type": "video",
+          "logo_video_url": "https://cdn.shopify.com/videos/c/o/v/5e517072656843aab746e023a48eb853.mp4",
+          "logo_width_ds": "250",
           "show_date_time_enter": true,
-          "entertimedate_color": "black",
+          "entertimedate_color": "white",
           "selected_menu": "main-menu",
           "nav_link_size": 18,
-          "navmenu_color": "black",
+          "navmenu_color": "white",
           "nav_con_corners": "30px",
           "nav_content_bg": "#000000",
-          "show_nav_bg_opacity": true,
-          "nav_bg_color_opacity": 0,
-          "nav_bg_blur": 12,
-          "background_type": "solid",
-          "solid_background_color": "#ffffff",
-          "background_video_url": "",
+          "show_nav_bg_opacity": false,
+          "nav_bg_color_opacity": 98,
+          "nav_bg_blur": 0,
+          "background_type": "video",
+          "solid_background_color": "#000000",
+          "background_video_url": "https://cdn.shopify.com/videos/c/o/v/4a864596f01942bb982885a640a1435c.mp4",
           "bg_blur": 1,
           "bg_brightness": 90,
           "bg_hue": 0,
@@ -88,14 +99,15 @@
       "header": {
         "type": "header",
         "settings": {
+          "logo": "shopify://shop_images/gabowhite.png",
           "logo_max_width": "125",
-          "show_announcement": true,
+          "show_announcement": false,
           "home_page_only": false,
           "type_announcement": "marquee",
           "anno_home_rate": 18,
           "announcement_text": "",
           "announcement_link": "",
-          "bar_text_color": "#000000",
+          "bar_text_color": "#ffffff",
           "bar_bg_color": "#ffffff",
           "announcement_float": true,
           "desktop_float_width": 90,
@@ -109,21 +121,26 @@
         "type": "timendate",
         "settings": {
           "show_date_time": true,
-          "index_date_color": "#ffffff",
+          "index_date_color": "#000000",
           "index_time_color": "#ffffff",
           "timezone": "America/Chicago"
         }
       },
       "sidebar": {
         "type": "sidebar",
-        "settings": { "main_menu_link_list": "main-menu" }
+        "settings": {
+          "main_menu_link_list": "main-menu"
+        }
       },
       "footer": {
         "type": "footer",
         "blocks": {
           "menu_MPbbpm": {
             "type": "menu",
-            "settings": { "title": "Links", "menu": "" }
+            "settings": {
+              "title": "Links",
+              "menu": ""
+            }
           },
           "newsletter_hFNqNB": {
             "type": "newsletter",
@@ -133,8 +150,13 @@
             }
           }
         },
-        "block_order": ["menu_MPbbpm", "newsletter_hFNqNB"],
-        "settings": { "show_payment_icons": true }
+        "block_order": [
+          "menu_MPbbpm",
+          "newsletter_hFNqNB"
+        ],
+        "settings": {
+          "show_payment_icons": true
+        }
       },
       "audio-player": {
         "type": "audio-player",
